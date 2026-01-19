@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>До минулого себе</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500&family=Montserrat:wght@300;400;500&display=swap');
+        
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+        
+        :root {
+            --deep-ocean: #0a1a3a;
+            --midnight-blue: #1a2f5a;
+            --twilight-sky: #2a4a7a;
+            --crystal-blue: #87CEEB;
+            --royal-blue: #4169E1;
+            --mist-white: #E0F0FF;
+            --water-sparkle: rgba(135, 206, 250, 0.7);
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(180deg, var(--deep-ocean) 0%, var(--midnight-blue) 50%, var(--twilight-sky) 100%);
+            color: var(--mist-white);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            position: relative;
+            cursor: default;
+        }
+        
+        /* Ефірний оверлей */
+        .ethereal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, var(--water-sparkle) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(65, 105, 225, 0.12) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 1;
+            animation: etherealBreath 12s ease-in-out infinite;
+            mix-blend-mode: screen;
+        }
+        
+        /* Аудіо плеєр - ефірний */
+        .audio-player {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 100;
+            background: rgba(10, 26, 58, 0.5);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(135, 206, 250, 0.2);
+            border-radius: 25px;
+            padding: 10px 18px;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0.7;
+        }
+        
+        .audio-player:hover {
+            opacity: 1;
+            border-color: rgba(135, 206, 250, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(135, 206, 250, 0.1);
+        }
+        
+        .play-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: transparent;
+            border: 1.5px solid var(--crystal-blue);
+            color: var(--crystal-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            font-size: 1.1rem;
+        }
+        
+        .play-btn:hover {
+            background: rgba(135, 206, 250, 0.1);
+            transform: scale(1.15);
+            box-shadow: 0 0 20px rgba(135, 206, 250, 0.3);
+        }
+        
+        .play-btn.playing {
+            animation: pulseGlow 2s ease-in-out infinite;
+        }
+        
+        .volume-slider {
+            width: 70px;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 2px;
+            background: rgba(135, 206, 250, 0.3);
+            border-radius: 1px;
+            outline: none;
+        }
+        
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--crystal-blue);
+            cursor: pointer;
+            border: 2px solid rgba(224, 240, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        .volume-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.3);
+            box-shadow: 0 0 10px var(--crystal-blue);
+        }
+        
+        /* Контейнер листа */
+        .letter-container {
+            position: relative;
+            z-index: 10;
+            max-width: 700px;
+            padding: 3rem 2rem;
+            margin: 2rem;
+            text-align: center;
+            opacity: 0;
+            animation: containerAppear 2s ease 0.5s forwards;
+        }
+        
+        .dove {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: doveFloat 3s ease 1s forwards;
+            filter: drop-shadow(0 0 25px rgba(135, 206, 250, 0.4));
+            transition: all 0.6s ease;
+            transform-origin: center;
+        }
+        
+        .dove:hover {
+            transform: translateY(-10px) rotate(5deg);
+            filter: drop-shadow(0 0 35px rgba(135, 206, 250, 0.7));
+        }
+        
+        h1 {
+            font-family: 'Comfortaa', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 300;
+            color: var(--crystal-blue);
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: titleReveal 2s ease 1.5s forwards;
+            letter-spacing: 0.05em;
+            position: relative;
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--crystal-blue), transparent);
+            animation: lineExtend 1.5s ease 2s forwards;
+        }
+        
+        .letter-text {
+            font-size: 1.35rem;
+            line-height: 2.2;
+            margin: 2.2rem 0;
+            opacity: 0;
+            font-weight: 300;
+            position: relative;
+            padding: 1.2rem;
+            border-radius: 8px;
+            transition: all 0.5s ease;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+        
+        .letter-text.reveal {
+            animation: textReveal 1.8s ease forwards;
+        }
+        
+        .letter-text:hover {
+            background: rgba(135, 206, 250, 0.03);
+            transform: translateY(-3px) translateZ(10px);
+            box-shadow: 0 10px 25px rgba(10, 26, 58, 0.3);
+        }
+        
+        .emphasis {
+            color: var(--crystal-blue);
+            font-weight: 400;
+            position: relative;
+            display: inline-block;
+            animation: gentleFloat 4s ease-in-out infinite;
+            text-shadow: 0 0 15px rgba(135, 206, 250, 0.3);
+        }
+        
+        .emphasis::before {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--crystal-blue), transparent);
+            opacity: 0.5;
+            animation: shimmerLine 3s ease-in-out infinite;
+        }
+        
+        .english {
+            font-style: italic;
+            color: rgba(135, 206, 250, 0.85);
+            font-size: 1.15rem;
+            margin-top: 1.5rem;
+            display: inline-block;
+            transform: rotate(-1deg);
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            border: 1px solid rgba(135, 206, 250, 0.2);
+            background: rgba(10, 26, 58, 0.4);
+            backdrop-filter: blur(5px);
+        }
+        
+        .signature {
+            margin-top: 4rem;
+            font-size: 1.5rem;
+            color: var(--crystal-blue);
+            opacity: 0;
+            font-family: 'Comfortaa', sans-serif;
+            letter-spacing: 0.08em;
+            position: relative;
+            padding: 1.2rem 2.5rem;
+            display: inline-block;
+        }
+        
+        .signature::before,
+        .signature::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--crystal-blue), transparent);
+            opacity: 0.4;
+        }
+        
+        .signature::before {
+            left: -50px;
+            animation: lineGrowLeft 1s ease 4s forwards;
+        }
+        
+        .signature::after {
+            right: -50px;
+            animation: lineGrowRight 1s ease 4s forwards;
+        }
+        
+        /* Кнопка назад */
+        .back-button {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(65, 105, 225, 0.15);
+            border: 1.5px solid rgba(135, 206, 250, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 100;
+            font-size: 1.4rem;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            text-decoration: none;
+            color: var(--crystal-blue);
+            opacity: 0.7;
+        }
+        
+        .back-button:hover {
+            background: rgba(65, 105, 225, 0.25);
+            border-color: rgba(135, 206, 250, 0.6);
+            transform: scale(1.15) rotate(-90deg);
+            opacity: 1;
+            box-shadow: 0 0 25px rgba(135, 206, 250, 0.2);
+        }
+        
+        /* Кристали */
+        .crystal {
+            position: fixed;
+            color: rgba(135, 206, 250, 0.15);
+            font-size: 1.6rem;
+            pointer-events: none;
+            z-index: 2;
+            filter: drop-shadow(0 0 8px rgba(135, 206, 250, 0.3));
+            transition: all 0.8s ease;
+            opacity: 0;
+            animation: crystalAppear 1s ease forwards;
+        }
+        
+        .crystal.float { 
+            animation: floatCrystal 25s ease-in-out infinite; 
+        }
+        
+        .crystal.spin { 
+            animation: spinCrystal 20s linear infinite; 
+        }
+        
+        /* Водяні краплі */
+        .water-drop {
+            position: fixed;
+            width: 3px;
+            height: 18px;
+            background: linear-gradient(to bottom, transparent, var(--crystal-blue), transparent);
+            border-radius: 0 0 8px 8px;
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0;
+            filter: blur(0.5px);
+        }
+        
+        /* Ефірні частинки */
+        .ethereal-particle {
+            position: fixed;
+            width: 2px;
+            height: 2px;
+            background: var(--crystal-blue);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0;
+            filter: blur(1px);
+        }
+        
+        /* Анімації */
+        @keyframes etherealBreath {
+            0%, 100% { 
+                opacity: 0.3; 
+                filter: blur(0px) brightness(1);
+            }
+            50% { 
+                opacity: 0.6; 
+                filter: blur(2px) brightness(1.2);
+            }
+        }
+        
+        @keyframes containerAppear {
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+        
+        @keyframes doveFloat {
+            0% { 
+                opacity: 0; 
+                transform: translateY(-30px) scale(0.8) rotate(-10deg); 
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateY(0) scale(1) rotate(0); 
+            }
+        }
+        
+        @keyframes titleReveal {
+            0% { 
+                opacity: 0; 
+                transform: translateY(20px) scale(0.95); 
+                text-shadow: 0 0 30px rgba(135, 206, 250, 0);
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+                text-shadow: 0 0 30px rgba(135, 206, 250, 0.3);
+            }
+        }
+        
+        @keyframes lineExtend {
+            0% { 
+                width: 0; 
+                opacity: 0; 
+            }
+            100% { 
+                width: 200px; 
+                opacity: 0.7; 
+            }
+        }
+        
+        @keyframes textReveal {
+            0% { 
+                opacity: 0; 
+                transform: translateY(25px) rotateX(45deg); 
+                filter: blur(5px);
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateY(0) rotateX(0); 
+                filter: blur(0);
+            }
+        }
+        
+        @keyframes gentleFloat {
+            0%, 100% { 
+                transform: translateY(0) scale(1); 
+                text-shadow: 0 0 10px rgba(135, 206, 250, 0.2);
+            }
+            50% { 
+                transform: translateY(-3px) scale(1.02); 
+                text-shadow: 0 0 20px rgba(135, 206, 250, 0.5);
+            }
+        }
+        
+        @keyframes shimmerLine {
+            0%, 100% { 
+                opacity: 0.3; 
+                transform: translateX(-100%); 
+            }
+            50% { 
+                opacity: 0.7; 
+                transform: translateX(100%); 
+            }
+        }
+        
+        @keyframes lineGrowLeft {
+            0% { 
+                width: 0; 
+                left: 0; 
+            }
+            100% { 
+                width: 40px; 
+                left: -50px; 
+            }
+        }
+        
+        @keyframes lineGrowRight {
+            0% { 
+                width: 0; 
+                right: 0; 
+            }
+            100% { 
+                width: 40px; 
+                right: -50px; 
+            }
+        }
+        
+        @keyframes floatCrystal {
+            0%, 100% { 
+                transform: translate(0, 0) rotate(0deg) scale(1); 
+            }
+            33% { 
+                transform: translate(50px, -50px) rotate(120deg) scale(1.1); 
+            }
+            66% { 
+                transform: translate(-40px, 40px) rotate(240deg) scale(0.9); 
+            }
+        }
+        
+        @keyframes spinCrystal {
+            from { 
+                transform: rotate(0deg); 
+            }
+            to { 
+                transform: rotate(360deg); 
+            }
+        }
+        
+        @keyframes crystalAppear {
+            to { 
+                opacity: 1; 
+            }
+        }
+        
+        @keyframes waterFall {
+            0% { 
+                transform: translateY(-100px) rotate(15deg); 
+                opacity: 0; 
+            }
+            10% { 
+                opacity: 0.6; 
+            }
+            90% { 
+                opacity: 0.4; 
+            }
+            100% { 
+                transform: translateY(100vh) rotate(-15deg); 
+                opacity: 0; 
+            }
+        }
+        
+        @keyframes particleFloat {
+            0% { 
+                transform: translateY(100vh) rotate(0deg); 
+                opacity: 0; 
+            }
+            10% { 
+                opacity: 0.3; 
+            }
+            90% { 
+                opacity: 0.1; 
+            }
+            100% { 
+                transform: translateY(-100px) rotate(360deg); 
+                opacity: 0; 
+            }
+        }
+        
+        @keyframes pulseGlow {
+            0%, 100% { 
+                box-shadow: 0 0 0 rgba(135, 206, 250, 0.4); 
+            }
+            50% { 
+                box-shadow: 0 0 20px rgba(135, 206, 250, 0.8); 
+            }
+        }
+        
+        @keyframes rippleEffect {
+            0% { 
+                opacity: 0.8; 
+                transform: scale(0); 
+                border-width: 1px;
+            }
+            100% { 
+                opacity: 0; 
+                transform: scale(4); 
+                border-width: 0;
+            }
+        }
+        
+        /* Адаптивність */
+        @media (max-width: 768px) {
+            h1 { 
+                font-size: 2.2rem; 
+            }
+            .letter-text { 
+                font-size: 1.15rem; 
+                line-height: 1.9; 
+                margin: 1.8rem 0;
+            }
+            .audio-player {
+                top: 1rem;
+                right: 1rem;
+                padding: 8px 15px;
+                gap: 8px;
+            }
+            .volume-slider {
+                width: 50px;
+            }
+            .back-button {
+                top: 1rem;
+                left: 1rem;
+                width: 42px;
+                height: 42px;
+            }
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            .ethereal-overlay {
+                animation: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="ethereal-overlay"></div>
+    
+    <!-- Ефірний аудіо плеєр -->
+    <div class="audio-player">
+        <button class="play-btn" id="playBtn">♪</button>
+        <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="30" title="Гучність">
+    </div>
+    
+    <!-- Кнопка назад -->
+    <a href="index.html" class="back-button">←</a>
+    
+    <!-- Контейнер листа -->
+    <div class="letter-container">
+        <div class="dove">🕊</div>
+        <h1>Привіт...</h1>
+        
+        <div class="letter-text reveal" style="animation-delay: 2s">Я знаю, що тобі страшно. Мама не зникла, мама повернулася. Тато нікуди не зник, тато повернувся.</div>
+        
+        <div class="letter-text reveal" style="animation-delay: 2.8s"><span class="emphasis">Сашуль, тебе люблять. За те, що ти є.</span></div>
+        
+        <div class="letter-text reveal" style="animation-delay: 3.6s">Я знаю, як сильно ти стараєшся. Ти ж так важко працюєш, ти так сильно стараєшся. У тебе не виходить, ти йдеш вперед. Знову, знову, знову. "Я ніколи не здаюсь", пам'ятаєш?</div>
+        
+        <div class="letter-text reveal" style="animation-delay: 4.4s">Ти – <span class="emphasis">молодець для себе</span>. Як би я хотів, щоб ти це побачив. Ти такий який ти є. І мені не просто подобається це, а я горжусь кожною клітиною свого тіла.</div>
+        
+        <div class="letter-text reveal" style="animation-delay: 5.2s">Я знаю, що ти зараз плачеш. Надієшся, що це закінчиться. Сумніваєшся, що робиш щось не так. Боїшся втратити все. Але на тебе дещо чекає. <span class="emphasis">Твої думки брешуть.</span></div>
+        
+        <div class="letter-text reveal" style="animation-delay: 6s"><span class="emphasis">Ти сильний, мужній і добрий.</span></div>
+        
+        <div class="letter-text reveal" style="animation-delay: 6.8s">Ти неймовірний. Всі це бачать. Хочу, щоб ти це бачив. Справді, я не брешу. Я справді так думаю. Чесно.</div>
+        
+        <div class="letter-text reveal" style="animation-delay: 7.6s">Просто треба час, щоб це побачити.</div>
+        
+        <div class="english reveal" style="animation-delay: 8.4s">Don't forget "Everything happens for a reason" ;)</div>
+        
+        <div class="signature reveal" style="animation-delay: 9.2s">— Той, хто залишився</div>
+    </div>
+    
+    <!-- Аудіо елемент -->
+    <audio id="backgroundMusic" loop>
+        <source src="past-song.mp3" type="audio/mpeg">
+    </audio>
+    
+    <script>
+        // === АУДІО СИСТЕМА ===
+        const audio = document.getElementById('backgroundMusic');
+        const playBtn = document.getElementById('playBtn');
+        const volumeSlider = document.getElementById('volumeSlider');
+        
+        // Ініціалізація
+        audio.volume = 0.3;
+        volumeSlider.value = 30;
+        
+        // Відтворення/пауза
+        playBtn.addEventListener('click', function() {
+            if (audio.paused) {
+                audio.volume = 0;
+                audio.play();
+                playBtn.classList.add('playing');
+                playBtn.innerHTML = '❚❚';
+                
+                // Плавне збільшення гучності
+                let vol = 0;
+                const fadeIn = setInterval(() => {
+                    vol += 0.01;
+                    audio.volume = vol;
+                    if (vol >= volumeSlider.value / 100) clearInterval(fadeIn);
+                }, 30);
+            } else {
+                // Плавне зменшення гучності
+                let vol = audio.volume;
+                const fadeOut = setInterval(() => {
+                    vol -= 0.05;
+                    audio.volume = vol;
+                    if (vol <= 0) {
+                        audio.pause();
+                        playBtn.classList.remove('playing');
+                        playBtn.innerHTML = '♪';
+                        clearInterval(fadeOut);
+                    }
+                }, 50);
+            }
+        });
+        
+        // Контроль гучності
+        volumeSlider.addEventListener('input', function() {
+            audio.volume = this.value / 100;
+        });
+        
+        // === ЕФІРНІ ЕФЕКТИ ===
+        
+        // Кристали
+        const crystalSymbols = ['◇', '◊', '❖', '✦', '✧', '⬡'];
+        for (let i = 0; i < 20; i++) {
+            setTimeout(() => {
+                const crystal = document.createElement('div');
+                crystal.className = 'crystal ' + (Math.random() > 0.5 ? 'float' : 'spin');
+                crystal.textContent = crystalSymbols[Math.floor(Math.random() * crystalSymbols.length)];
+                crystal.style.left = Math.random() * 100 + '%';
+                crystal.style.top = Math.random() * 100 + '%';
+                crystal.style.animationDelay = Math.random() * 3 + 's';
+                crystal.style.animationDuration = (15 + Math.random() * 20) + 's';
+                crystal.style.opacity = '0';
+                document.body.appendChild(crystal);
+                
+                setTimeout(() => {
+                    crystal.style.opacity = '0.15';
+                }, 100);
+            }, i * 150);
+        }
+        
+        // Водяні краплі
+        function createWaterDrop() {
+            const drop = document.createElement('div');
+            drop.className = 'water-drop';
+            drop.style.left = Math.random() * 100 + '%';
+            drop.style.animation = `waterFall ${8 + Math.random() * 6}s linear infinite`;
+            drop.style.animationDelay = Math.random() * 8 + 's';
+            drop.style.opacity = '0';
+            document.body.appendChild(drop);
+            
+            setTimeout(() => drop.remove(), 14000);
+        }
+        
+        // Ефірні частинки
+        function createEtherealParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'ethereal-particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animation = `particleFloat ${10 + Math.random() * 10}s ease-in infinite`;
+            particle.style.animationDelay = Math.random() * 5 + 's';
+            particle.style.opacity = '0';
+            particle.style.background = Math.random() > 0.5 ? 
+                'rgba(135, 206, 250, 0.3)' : 
+                'rgba(224, 240, 255, 0.2)';
+            document.body.appendChild(particle);
+            
+            setTimeout(() => particle.remove(), 20000);
+        }
+        
+        // Створення ефектів
+        for (let i = 0; i < 12; i++) {
+            setTimeout(() => createWaterDrop(), i * 300);
+            setTimeout(() => createEtherealParticle(), i * 250);
+        }
+        
+        // Періодичне створення
+        setInterval(createWaterDrop, 1200);
+        setInterval(createEtherealParticle, 900);
+        
+        // Ефект хвиль при кліку
+        document.addEventListener('click', function(e) {
+            const ripple = document.createElement('div');
+            ripple.style.cssText = `
+                position: fixed;
+                border: 1px solid rgba(135, 206, 250, 0.6);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 5;
+                left: ${e.clientX}px;
+                top: ${e.clientY}px;
+                width: 50px;
+                height: 50px;
+                transform: translate(-50%, -50%);
+                opacity: 0.8;
+            `;
+            
+            document.body.appendChild(ripple);
+            
+            ripple.animate([
+                { opacity: 0.8, transform: 'translate(-50%, -50%) scale(0)' },
+                { opacity: 0, transform: 'translate(-50%, -50%) scale(4)' }
+            ], {
+                duration: 1200,
+                easing: 'ease-out'
+            });
+            
+            setTimeout(() => ripple.remove(), 1200);
+        });
+        
+        // === АНІМАЦІЯ ТЕКСТУ ===
+        const textElements = document.querySelectorAll('.reveal');
+        textElements.forEach((el, index) => {
+            const delay = parseFloat(el.style.animationDelay) * 1000 || 2000;
+            setTimeout(() => {
+                el.style.animationPlayState = 'running';
+            }, delay);
+        });
+        
+        // === ІНТЕРАКТИВНІСТЬ ===
+        document.querySelectorAll('.letter-text').forEach(text => {
+            text.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) translateZ(15px)';
+                this.style.boxShadow = '0 15px 35px rgba(10, 26, 58, 0.4)';
+            });
+            
+            text.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(-3px) translateZ(10px)';
+                this.style.boxShadow = '0 10px 25px rgba(10, 26, 58, 0.3)';
+            });
+        });
+        
+        // Збереження стану
+        window.addEventListener('beforeunload', function() {
+            localStorage.setItem('musicPlaying', !audio.paused);
+            localStorage.setItem('musicVolume', audio.volume);
+        });
+        
+        window.addEventListener('load', function() {
+            const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
+            const savedVolume = parseFloat(localStorage.getItem('musicVolume')) || 0.3;
+            
+            audio.volume = savedVolume;
+            volumeSlider.value = savedVolume * 100;
+            
+            if (wasPlaying) {
+                audio.play();
+                playBtn.classList.add('playing');
+                playBtn.innerHTML = '❚❚';
+            }
+        });
+        
+        // Адаптація до налаштувань
+        const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+        if (motionQuery.matches) {
+            document.querySelectorAll('*').forEach(el => {
+                el.style.animation = 'none';
+                el.style.transition = 'none';
+            });
+        }
+    </script>
+</body>
+</html>
