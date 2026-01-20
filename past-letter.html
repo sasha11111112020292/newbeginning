@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>До минулого себе</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500&family=Montserrat:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500&family=Montserrat:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap');
         
         * { 
             margin: 0; 
@@ -36,7 +36,6 @@
             cursor: default;
         }
         
-        /* Ефірний оверлей */
         .ethereal-overlay {
             position: fixed;
             top: 0;
@@ -52,7 +51,6 @@
             mix-blend-mode: screen;
         }
         
-        /* Аудіо плеєр - ефірний */
         .audio-player {
             position: fixed;
             top: 2rem;
@@ -128,150 +126,144 @@
             box-shadow: 0 0 10px var(--crystal-blue);
         }
         
-        /* Контейнер листа */
+        /* Letter styling */
         .letter-container {
             position: relative;
             z-index: 10;
-            max-width: 700px;
-            padding: 3rem 2rem;
+            max-width: 750px;
+            padding: 4rem 3rem;
             margin: 2rem;
-            text-align: center;
+            background: rgba(10, 26, 58, 0.3);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(135, 206, 250, 0.15);
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
             opacity: 0;
-            animation: containerAppear 2s ease 0.5s forwards;
+            animation: letterAppear 2.5s ease 0.5s forwards;
+        }
+        
+        .letter-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(135, 206, 250, 0.2);
         }
         
         .dove {
             font-size: 4rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             opacity: 0;
             animation: doveFloat 3s ease 1s forwards;
-            filter: drop-shadow(0 0 25px rgba(135, 206, 250, 0.4));
+            filter: drop-shadow(0 0 25px rgba(135, 206, 250, 0.5));
             transition: all 0.6s ease;
-            transform-origin: center;
         }
         
         .dove:hover {
-            transform: translateY(-10px) rotate(5deg);
-            filter: drop-shadow(0 0 35px rgba(135, 206, 250, 0.7));
+            transform: translateY(-10px) rotate(5deg) scale(1.1);
+            filter: drop-shadow(0 0 40px rgba(135, 206, 250, 0.8));
+        }
+        
+        .letter-from {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            font-style: italic;
+            color: rgba(135, 206, 250, 0.7);
+            margin-bottom: 0.5rem;
+            opacity: 0;
+            animation: fadeIn 2s ease 1.8s forwards;
         }
         
         h1 {
-            font-family: 'Comfortaa', sans-serif;
-            font-size: 2.8rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 4rem;
             font-weight: 300;
             color: var(--crystal-blue);
-            margin-bottom: 3rem;
+            margin-bottom: 0.5rem;
             opacity: 0;
-            animation: titleReveal 2s ease 1.5s forwards;
-            letter-spacing: 0.05em;
+            animation: titleReveal 2.5s ease 2s forwards;
+            letter-spacing: 0.15em;
             position: relative;
+            text-shadow: 0 0 40px rgba(135, 206, 250, 0.4);
+            font-style: italic;
         }
         
-        h1::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--crystal-blue), transparent);
-            animation: lineExtend 1.5s ease 2s forwards;
+        .letter-to {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            font-style: italic;
+            color: rgba(135, 206, 250, 0.7);
+            margin-top: 0.5rem;
+            opacity: 0;
+            animation: fadeIn 2s ease 2.5s forwards;
+        }
+        
+        .letter-body {
+            text-align: left;
+            line-height: 2.3;
         }
         
         .letter-text {
-            font-size: 1.35rem;
-            line-height: 2.2;
-            margin: 2.2rem 0;
+            font-size: 1.25rem;
+            line-height: 2.3;
+            margin: 2rem 0;
             opacity: 0;
             font-weight: 300;
             position: relative;
-            padding: 1.2rem;
-            border-radius: 8px;
+            padding: 0.5rem 0;
             transition: all 0.5s ease;
-            transform-style: preserve-3d;
-            perspective: 1000px;
+            color: rgba(224, 240, 255, 0.95);
         }
         
         .letter-text.reveal {
-            animation: textReveal 1.8s ease forwards;
+            animation: textReveal 2s ease forwards;
         }
         
         .letter-text:hover {
-            background: rgba(135, 206, 250, 0.03);
-            transform: translateY(-3px) translateZ(10px);
-            box-shadow: 0 10px 25px rgba(10, 26, 58, 0.3);
+            color: rgba(255, 255, 255, 1);
+            transform: translateX(5px);
+            text-shadow: 0 0 20px rgba(135, 206, 250, 0.3);
         }
         
         .emphasis {
             color: var(--crystal-blue);
             font-weight: 400;
             position: relative;
-            display: inline-block;
-            animation: gentleFloat 4s ease-in-out infinite;
-            text-shadow: 0 0 15px rgba(135, 206, 250, 0.3);
+            display: inline;
+            text-shadow: 0 0 15px rgba(135, 206, 250, 0.4);
+            transition: all 0.3s ease;
         }
         
-        .emphasis::before {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--crystal-blue), transparent);
-            opacity: 0.5;
-            animation: shimmerLine 3s ease-in-out infinite;
+        .emphasis:hover {
+            text-shadow: 0 0 25px rgba(135, 206, 250, 0.7);
         }
         
         .english {
+            font-family: 'Cormorant Garamond', serif;
             font-style: italic;
             color: rgba(135, 206, 250, 0.85);
-            font-size: 1.15rem;
-            margin-top: 1.5rem;
-            display: inline-block;
-            transform: rotate(-1deg);
-            padding: 0.8rem 1.5rem;
-            border-radius: 6px;
-            border: 1px solid rgba(135, 206, 250, 0.2);
-            background: rgba(10, 26, 58, 0.4);
-            backdrop-filter: blur(5px);
+            font-size: 1.2rem;
+            margin-top: 2rem;
+            display: block;
+            text-align: center;
+            padding: 1rem;
+            background: rgba(10, 26, 58, 0.3);
+            border-left: 2px solid rgba(135, 206, 250, 0.3);
+            border-right: 2px solid rgba(135, 206, 250, 0.3);
         }
         
         .signature {
             margin-top: 4rem;
-            font-size: 1.5rem;
+            text-align: right;
+            font-size: 1.3rem;
             color: var(--crystal-blue);
             opacity: 0;
-            font-family: 'Comfortaa', sans-serif;
-            letter-spacing: 0.08em;
-            position: relative;
-            padding: 1.2rem 2.5rem;
-            display: inline-block;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            letter-spacing: 0.05em;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(135, 206, 250, 0.2);
         }
         
-        .signature::before,
-        .signature::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            width: 40px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--crystal-blue), transparent);
-            opacity: 0.4;
-        }
-        
-        .signature::before {
-            left: -50px;
-            animation: lineGrowLeft 1s ease 4s forwards;
-        }
-        
-        .signature::after {
-            right: -50px;
-            animation: lineGrowRight 1s ease 4s forwards;
-        }
-        
-        /* Кнопка назад */
         .back-button {
             position: fixed;
             top: 2rem;
@@ -302,76 +294,78 @@
             box-shadow: 0 0 25px rgba(135, 206, 250, 0.2);
         }
         
-        /* Кристали */
         .crystal {
             position: fixed;
-            color: rgba(135, 206, 250, 0.15);
-            font-size: 1.6rem;
+            color: rgba(135, 206, 250, 0.12);
+            font-size: 1.8rem;
             pointer-events: none;
             z-index: 2;
-            filter: drop-shadow(0 0 8px rgba(135, 206, 250, 0.3));
-            transition: all 0.8s ease;
+            filter: drop-shadow(0 0 10px rgba(135, 206, 250, 0.3));
             opacity: 0;
-            animation: crystalAppear 1s ease forwards;
+            animation: crystalAppear 2s ease forwards;
         }
         
         .crystal.float { 
-            animation: floatCrystal 25s ease-in-out infinite; 
+            animation: floatCrystal 30s ease-in-out infinite; 
         }
         
         .crystal.spin { 
-            animation: spinCrystal 20s linear infinite; 
+            animation: spinCrystal 25s linear infinite; 
         }
         
-        /* Водяні краплі */
         .water-drop {
             position: fixed;
-            width: 3px;
-            height: 18px;
+            width: 2px;
+            height: 20px;
             background: linear-gradient(to bottom, transparent, var(--crystal-blue), transparent);
-            border-radius: 0 0 8px 8px;
+            border-radius: 0 0 10px 10px;
             pointer-events: none;
             z-index: 2;
             opacity: 0;
-            filter: blur(0.5px);
+            filter: blur(0.3px);
         }
         
-        /* Ефірні частинки */
         .ethereal-particle {
             position: fixed;
-            width: 2px;
-            height: 2px;
+            width: 3px;
+            height: 3px;
             background: var(--crystal-blue);
             border-radius: 50%;
             pointer-events: none;
             z-index: 1;
             opacity: 0;
-            filter: blur(1px);
+            filter: blur(1.5px);
+            box-shadow: 0 0 5px var(--crystal-blue);
         }
         
-        /* Анімації */
         @keyframes etherealBreath {
             0%, 100% { 
-                opacity: 0.3; 
+                opacity: 0.4; 
                 filter: blur(0px) brightness(1);
             }
             50% { 
-                opacity: 0.6; 
-                filter: blur(2px) brightness(1.2);
+                opacity: 0.7; 
+                filter: blur(3px) brightness(1.3);
             }
         }
         
-        @keyframes containerAppear {
+        @keyframes letterAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(30px);
+                filter: blur(10px);
+            }
             to { 
-                opacity: 1; 
-                transform: translateY(0); 
+                opacity: 1;
+                transform: scale(1) translateY(0);
+                filter: blur(0);
             }
         }
         
         @keyframes doveFloat {
             0% { 
                 opacity: 0; 
-                transform: translateY(-30px) scale(0.8) rotate(-10deg); 
+                transform: translateY(-50px) scale(0.7) rotate(-15deg); 
             }
             100% { 
                 opacity: 1; 
@@ -379,96 +373,51 @@
             }
         }
         
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
         @keyframes titleReveal {
             0% { 
                 opacity: 0; 
-                transform: translateY(20px) scale(0.95); 
-                text-shadow: 0 0 30px rgba(135, 206, 250, 0);
+                transform: translateY(30px) scale(0.9); 
+                text-shadow: 0 0 50px rgba(135, 206, 250, 0);
+                letter-spacing: 0.5em;
             }
             100% { 
                 opacity: 1; 
                 transform: translateY(0) scale(1); 
-                text-shadow: 0 0 30px rgba(135, 206, 250, 0.3);
-            }
-        }
-        
-        @keyframes lineExtend {
-            0% { 
-                width: 0; 
-                opacity: 0; 
-            }
-            100% { 
-                width: 200px; 
-                opacity: 0.7; 
+                text-shadow: 0 0 40px rgba(135, 206, 250, 0.4);
+                letter-spacing: 0.15em;
             }
         }
         
         @keyframes textReveal {
             0% { 
                 opacity: 0; 
-                transform: translateY(25px) rotateX(45deg); 
-                filter: blur(5px);
+                transform: translateX(-20px); 
+                filter: blur(3px);
             }
             100% { 
                 opacity: 1; 
-                transform: translateY(0) rotateX(0); 
+                transform: translateX(0); 
                 filter: blur(0);
-            }
-        }
-        
-        @keyframes gentleFloat {
-            0%, 100% { 
-                transform: translateY(0) scale(1); 
-                text-shadow: 0 0 10px rgba(135, 206, 250, 0.2);
-            }
-            50% { 
-                transform: translateY(-3px) scale(1.02); 
-                text-shadow: 0 0 20px rgba(135, 206, 250, 0.5);
-            }
-        }
-        
-        @keyframes shimmerLine {
-            0%, 100% { 
-                opacity: 0.3; 
-                transform: translateX(-100%); 
-            }
-            50% { 
-                opacity: 0.7; 
-                transform: translateX(100%); 
-            }
-        }
-        
-        @keyframes lineGrowLeft {
-            0% { 
-                width: 0; 
-                left: 0; 
-            }
-            100% { 
-                width: 40px; 
-                left: -50px; 
-            }
-        }
-        
-        @keyframes lineGrowRight {
-            0% { 
-                width: 0; 
-                right: 0; 
-            }
-            100% { 
-                width: 40px; 
-                right: -50px; 
             }
         }
         
         @keyframes floatCrystal {
             0%, 100% { 
                 transform: translate(0, 0) rotate(0deg) scale(1); 
+                opacity: 0.12;
             }
             33% { 
-                transform: translate(50px, -50px) rotate(120deg) scale(1.1); 
+                transform: translate(60px, -60px) rotate(120deg) scale(1.2); 
+                opacity: 0.18;
             }
             66% { 
-                transform: translate(-40px, 40px) rotate(240deg) scale(0.9); 
+                transform: translate(-50px, 50px) rotate(240deg) scale(0.9); 
+                opacity: 0.10;
             }
         }
         
@@ -483,40 +432,40 @@
         
         @keyframes crystalAppear {
             to { 
-                opacity: 1; 
+                opacity: 0.15; 
             }
         }
         
         @keyframes waterFall {
             0% { 
-                transform: translateY(-100px) rotate(15deg); 
+                transform: translateY(-150px) rotate(20deg); 
                 opacity: 0; 
             }
             10% { 
-                opacity: 0.6; 
+                opacity: 0.5; 
             }
             90% { 
-                opacity: 0.4; 
+                opacity: 0.3; 
             }
             100% { 
-                transform: translateY(100vh) rotate(-15deg); 
+                transform: translateY(100vh) rotate(-20deg); 
                 opacity: 0; 
             }
         }
         
         @keyframes particleFloat {
             0% { 
-                transform: translateY(100vh) rotate(0deg); 
+                transform: translateY(100vh) translateX(0) rotate(0deg); 
                 opacity: 0; 
             }
             10% { 
-                opacity: 0.3; 
+                opacity: 0.4; 
             }
             90% { 
-                opacity: 0.1; 
+                opacity: 0.2; 
             }
             100% { 
-                transform: translateY(-100px) rotate(360deg); 
+                transform: translateY(-150px) translateX(50px) rotate(360deg); 
                 opacity: 0; 
             }
         }
@@ -530,28 +479,18 @@
             }
         }
         
-        @keyframes rippleEffect {
-            0% { 
-                opacity: 0.8; 
-                transform: scale(0); 
-                border-width: 1px;
-            }
-            100% { 
-                opacity: 0; 
-                transform: scale(4); 
-                border-width: 0;
-            }
-        }
-        
-        /* Адаптивність */
         @media (max-width: 768px) {
             h1 { 
-                font-size: 2.2rem; 
+                font-size: 2.8rem;
+                letter-spacing: 0.1em;
+            }
+            .letter-container {
+                padding: 2.5rem 1.5rem;
             }
             .letter-text { 
-                font-size: 1.15rem; 
-                line-height: 1.9; 
-                margin: 1.8rem 0;
+                font-size: 1.1rem; 
+                line-height: 2; 
+                margin: 1.5rem 0;
             }
             .audio-player {
                 top: 1rem;
@@ -576,88 +515,99 @@
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
             }
-            .ethereal-overlay {
-                animation: none;
-            }
         }
     </style>
 </head>
 <body>
     <div class="ethereal-overlay"></div>
     
-    <!-- Ефірний аудіо плеєр -->
     <div class="audio-player">
         <button class="play-btn" id="playBtn">♪</button>
         <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="30" title="Гучність">
     </div>
     
-    <!-- Кнопка назад -->
     <a href="index.html" class="back-button">←</a>
     
-    <!-- Контейнер листа -->
     <div class="letter-container">
-        <div class="dove">🕊</div>
-        <h1>Привіт...</h1>
+        <div class="letter-header">
+            <div class="dove">🕊</div>
+            <div class="letter-from">Від тебе в майбутньому</div>
+            <h1>Привіт...</h1>
+            <div class="letter-to">До тебе в минулому</div>
+        </div>
         
-        <div class="letter-text reveal" style="animation-delay: 2s">Я знаю, що тобі страшно. Мама не зникла, мама повернулася. Тато нікуди не зник, тато повернувся.</div>
-        
-        <div class="letter-text reveal" style="animation-delay: 2.8s"><span class="emphasis">Сашуль, тебе люблять. За те, що ти є.</span></div>
-        
-        <div class="letter-text reveal" style="animation-delay: 3.6s">Я знаю, як сильно ти стараєшся. Ти ж так важко працюєш, ти так сильно стараєшся. У тебе не виходить, ти йдеш вперед. Знову, знову, знову. "Я ніколи не здаюсь", пам'ятаєш?</div>
-        
-        <div class="letter-text reveal" style="animation-delay: 4.4s">Ти – <span class="emphasis">молодець для себе</span>. Як би я хотів, щоб ти це побачив. Ти такий який ти є. І мені не просто подобається це, а я горжусь кожною клітиною свого тіла.</div>
-        
-        <div class="letter-text reveal" style="animation-delay: 5.2s">Я знаю, що ти зараз плачеш. Надієшся, що це закінчиться. Сумніваєшся, що робиш щось не так. Боїшся втратити все. Але на тебе дещо чекає. <span class="emphasis">Твої думки брешуть.</span></div>
-        
-        <div class="letter-text reveal" style="animation-delay: 6s"><span class="emphasis">Ти сильний, мужній і добрий.</span></div>
-        
-        <div class="letter-text reveal" style="animation-delay: 6.8s">Ти неймовірний. Всі це бачать. Хочу, щоб ти це бачив. Справді, я не брешу. Я справді так думаю. Чесно.</div>
-        
-        <div class="letter-text reveal" style="animation-delay: 7.6s">Просто треба час, щоб це побачити.</div>
-        
-        <div class="english reveal" style="animation-delay: 8.4s">Don't forget "Everything happens for a reason" ;)</div>
-        
-        <div class="signature reveal" style="animation-delay: 9.2s">— Той, хто залишився</div>
+        <div class="letter-body">
+            <div class="letter-text reveal" style="animation-delay: 3s">Я знаю, що тобі страшно. Мама не зникла, мама повернулась. Тато нікуди не зник, тато повернувся.</div>
+            
+            <div class="letter-text reveal" style="animation-delay: 3.8s"><span class="emphasis">Сашуль, тебе люблять. За те, що ти є.</span></div>
+            
+            <div class="letter-text reveal" style="animation-delay: 4.6s">Я знаю, як сильно ти стараєшся. Ти ж так важко працюєш, ти так сильно стараєшся. У тебе не виходить, ти йдеш вперед. Знову, знову, знову. "Я ніколи не здаюсь", пам'ятаєш?</div>
+            
+            <div class="letter-text reveal" style="animation-delay: 5.4s">Ти — <span class="emphasis">молодець для себе</span>. Як би я хотів, щоб ти це побачив. Ти такий який ти є. І мені не просто подобається це, а я горжусь кожною клітиною свого тіла.</div>
+            
+            <div class="letter-text reveal" style="animation-delay: 6.2s">Я знаю, що ти зараз плачеш. Надієшся, що це закінчиться. Сумніваєшся, що робиш щось не так. Боїшся втратити все. Але на тебе дещо чекає. <span class="emphasis">Твої думки брешуть.</span></div>
+            
+            <div class="letter-text reveal" style="animation-delay: 7s"><span class="emphasis">Ти сильний, мужній і добрий.</span></div>
+            
+            <div class="letter-text reveal" style="animation-delay: 7.8s">Ти неймовірний. Всі це бачать. Хочу, щоб ти це бачив. Справді, я не брешу. Я справді так думаю. Чесно.</div>
+            
+            <div class="letter-text reveal" style="animation-delay: 8.6s">Просто треба час, щоб це побачити.</div>
+            
+            <div class="letter-text reveal" style="animation-delay: 9.4s"><span class="emphasis">Не мовчи. Говори, навіть коли важко.</span></div>
+            
+            <div class="letter-text reveal" style="animation-delay: 10.2s">Говори, те що ти думаєш і відчуваєш.</div>
+            
+            <div class="letter-text reveal" style="animation-delay: 11s">Це важливо. <span class="emphasis">Ти важливий, цінний і потрібний.</span></div>
+            
+            <div class="letter-text reveal" style="animation-delay: 11.8s"><span class="emphasis">Дякую, що ти був сильним! Дякую, за те, що ти є! Дякую.</span></div>
+            
+            <div class="english reveal" style="animation-delay: 12.6s">Don't forget "Everything happens for a reason" ;)</div>
+            
+            <div class="signature reveal" style="animation-delay: 13.4s">— Той, хто залишився</div>
+        </div>
     </div>
     
-    <!-- Аудіо елемент -->
     <audio id="backgroundMusic" loop>
         <source src="past-song.mp3" type="audio/mpeg">
     </audio>
     
     <script>
-        // === АУДІО СИСТЕМА ===
         const audio = document.getElementById('backgroundMusic');
         const playBtn = document.getElementById('playBtn');
         const volumeSlider = document.getElementById('volumeSlider');
         
-        // Ініціалізація
-        audio.volume = 0.3;
+        let isPlaying = false;
+        let currentVolume = 0.3;
+        
+        audio.volume = currentVolume;
         volumeSlider.value = 30;
         
-        // Відтворення/пауза
         playBtn.addEventListener('click', function() {
-            if (audio.paused) {
+            if (!isPlaying) {
                 audio.volume = 0;
                 audio.play();
+                isPlaying = true;
                 playBtn.classList.add('playing');
-                playBtn.innerHTML = '❚❚';
+                playBtn.innerHTML = '⏸';
                 
-                // Плавне збільшення гучності
                 let vol = 0;
                 const fadeIn = setInterval(() => {
                     vol += 0.01;
                     audio.volume = vol;
-                    if (vol >= volumeSlider.value / 100) clearInterval(fadeIn);
+                    if (vol >= currentVolume) {
+                        audio.volume = currentVolume;
+                        clearInterval(fadeIn);
+                    }
                 }, 30);
             } else {
-                // Плавне зменшення гучності
                 let vol = audio.volume;
                 const fadeOut = setInterval(() => {
                     vol -= 0.05;
                     audio.volume = vol;
                     if (vol <= 0) {
                         audio.pause();
+                        audio.volume = 0;
+                        isPlaying = false;
                         playBtn.classList.remove('playing');
                         playBtn.innerHTML = '♪';
                         clearInterval(fadeOut);
@@ -666,152 +616,85 @@
             }
         });
         
-        // Контроль гучності
         volumeSlider.addEventListener('input', function() {
-            audio.volume = this.value / 100;
+            currentVolume = this.value / 100;
+            audio.volume = currentVolume;
         });
         
-        // === ЕФІРНІ ЕФЕКТИ ===
-        
-        // Кристали
-        const crystalSymbols = ['◇', '◊', '❖', '✦', '✧', '⬡'];
-        for (let i = 0; i < 20; i++) {
+        // Ethereal effects
+        const crystalSymbols = ['◇', '◊', '◆', '✦', '✧', '⬡', '❋', '✵'];
+        for (let i = 0; i < 25; i++) {
             setTimeout(() => {
                 const crystal = document.createElement('div');
                 crystal.className = 'crystal ' + (Math.random() > 0.5 ? 'float' : 'spin');
                 crystal.textContent = crystalSymbols[Math.floor(Math.random() * crystalSymbols.length)];
                 crystal.style.left = Math.random() * 100 + '%';
                 crystal.style.top = Math.random() * 100 + '%';
-                crystal.style.animationDelay = Math.random() * 3 + 's';
-                crystal.style.animationDuration = (15 + Math.random() * 20) + 's';
-                crystal.style.opacity = '0';
+                crystal.style.animationDelay = Math.random() * 5 + 's';
+                crystal.style.animationDuration = (20 + Math.random() * 25) + 's';
                 document.body.appendChild(crystal);
-                
-                setTimeout(() => {
-                    crystal.style.opacity = '0.15';
-                }, 100);
-            }, i * 150);
+            }, i * 100);
         }
         
-        // Водяні краплі
         function createWaterDrop() {
             const drop = document.createElement('div');
             drop.className = 'water-drop';
             drop.style.left = Math.random() * 100 + '%';
-            drop.style.animation = `waterFall ${8 + Math.random() * 6}s linear infinite`;
-            drop.style.animationDelay = Math.random() * 8 + 's';
-            drop.style.opacity = '0';
+            drop.style.animation = `waterFall ${10 + Math.random() * 8}s linear`;
+            drop.style.animationDelay = Math.random() * 5 + 's';
             document.body.appendChild(drop);
-            
-            setTimeout(() => drop.remove(), 14000);
+            setTimeout(() => drop.remove(), 18000);
         }
         
-        // Ефірні частинки
         function createEtherealParticle() {
             const particle = document.createElement('div');
             particle.className = 'ethereal-particle';
             particle.style.left = Math.random() * 100 + '%';
-            particle.style.animation = `particleFloat ${10 + Math.random() * 10}s ease-in infinite`;
-            particle.style.animationDelay = Math.random() * 5 + 's';
-            particle.style.opacity = '0';
-            particle.style.background = Math.random() > 0.5 ? 
-                'rgba(135, 206, 250, 0.3)' : 
-                'rgba(224, 240, 255, 0.2)';
+            particle.style.animation = `particleFloat ${12 + Math.random() * 12}s ease-in`;
+            particle.style.animationDelay = Math.random() * 6 + 's';
             document.body.appendChild(particle);
-            
-            setTimeout(() => particle.remove(), 20000);
+            setTimeout(() => particle.remove(), 24000);
         }
         
-        // Створення ефектів
-        for (let i = 0; i < 12; i++) {
-            setTimeout(() => createWaterDrop(), i * 300);
-            setTimeout(() => createEtherealParticle(), i * 250);
+        for (let i = 0; i < 15; i++) {
+            setTimeout(() => createWaterDrop(), i * 400);
+            setTimeout(() => createEtherealParticle(), i * 350);
         }
         
-        // Періодичне створення
-        setInterval(createWaterDrop, 1200);
-        setInterval(createEtherealParticle, 900);
+        setInterval(createWaterDrop, 1500);
+        setInterval(createEtherealParticle, 1100);
         
-        // Ефект хвиль при кліку
         document.addEventListener('click', function(e) {
-            const ripple = document.createElement('div');
-            ripple.style.cssText = `
-                position: fixed;
-                border: 1px solid rgba(135, 206, 250, 0.6);
-                border-radius: 50%;
-                pointer-events: none;
-                z-index: 5;
-                left: ${e.clientX}px;
-                top: ${e.clientY}px;
-                width: 50px;
-                height: 50px;
-                transform: translate(-50%, -50%);
-                opacity: 0.8;
-            `;
-            
-            document.body.appendChild(ripple);
-            
-            ripple.animate([
-                { opacity: 0.8, transform: 'translate(-50%, -50%) scale(0)' },
-                { opacity: 0, transform: 'translate(-50%, -50%) scale(4)' }
-            ], {
-                duration: 1200,
-                easing: 'ease-out'
-            });
-            
-            setTimeout(() => ripple.remove(), 1200);
-        });
-        
-        // === АНІМАЦІЯ ТЕКСТУ ===
-        const textElements = document.querySelectorAll('.reveal');
-        textElements.forEach((el, index) => {
-            const delay = parseFloat(el.style.animationDelay) * 1000 || 2000;
-            setTimeout(() => {
-                el.style.animationPlayState = 'running';
-            }, delay);
-        });
-        
-        // === ІНТЕРАКТИВНІСТЬ ===
-        document.querySelectorAll('.letter-text').forEach(text => {
-            text.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-5px) translateZ(15px)';
-                this.style.boxShadow = '0 15px 35px rgba(10, 26, 58, 0.4)';
-            });
-            
-            text.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(-3px) translateZ(10px)';
-                this.style.boxShadow = '0 10px 25px rgba(10, 26, 58, 0.3)';
-            });
-        });
-        
-        // Збереження стану
-        window.addEventListener('beforeunload', function() {
-            localStorage.setItem('musicPlaying', !audio.paused);
-            localStorage.setItem('musicVolume', audio.volume);
-        });
-        
-        window.addEventListener('load', function() {
-            const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
-            const savedVolume = parseFloat(localStorage.getItem('musicVolume')) || 0.3;
-            
-            audio.volume = savedVolume;
-            volumeSlider.value = savedVolume * 100;
-            
-            if (wasPlaying) {
-                audio.play();
-                playBtn.classList.add('playing');
-                playBtn.innerHTML = '❚❚';
+            for (let i = 0; i < 3; i++) {
+                setTimeout(() => {
+                    const ripple = document.createElement('div');
+                    ripple.style.cssText = `
+                        position: fixed;
+                        border: 1px solid rgba(135, 206, 250, ${0.4 - i * 0.1});
+                        border-radius: 50%;
+                        pointer-events: none;
+                        z-index: 5;
+                        left: ${e.clientX}px;
+                        top: ${e.clientY}px;
+                        width: 30px;
+                        height: 30px;
+                        transform: translate(-50%, -50%);
+                    `;
+                    
+                    document.body.appendChild(ripple);
+                    
+                    ripple.animate([
+                        { opacity: 0.6, transform: 'translate(-50%, -50%) scale(0)' },
+                        { opacity: 0, transform: 'translate(-50%, -50%) scale(5)' }
+                    ], {
+                        duration: 1500,
+                        easing: 'ease-out'
+                    });
+                    
+                    setTimeout(() => ripple.remove(), 1500);
+                }, i * 200);
             }
         });
-        
-        // Адаптація до налаштувань
-        const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-        if (motionQuery.matches) {
-            document.querySelectorAll('*').forEach(el => {
-                el.style.animation = 'none';
-                el.style.transition = 'none';
-            });
-        }
     </script>
 </body>
 </html>
